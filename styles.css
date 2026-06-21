@@ -2003,6 +2003,7 @@ MOBILE
 .faq-container{grid-template-columns:1fr;}
 .masonry-gallery{display:none;}
 .gallery-carousel{display:block;}
+.dining-image-wrap{position:relative;}
 .dining-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);margin-top:0;z-index:2;}
 .dining-dot{border-color:rgba(255,255,255,.7);}
 .dining-image{height:300px;}
