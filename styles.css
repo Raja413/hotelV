@@ -1986,6 +1986,9 @@ z-index:10000;
 .booking-widget{padding:30px;}
 section{padding:60px 0;}
 .features-grid{grid-template-columns:repeat(2,1fr);}
+.feature-card p{display:none;}
+.feature-card{padding:24px 16px 20px;}
+.feature-icon-wrap{width:56px;height:56px;border-radius:16px;margin-bottom:12px;}
 .banquet-grid{grid-template-columns:1fr 1fr;}
 .masonry-gallery{column-count:2;}
 
@@ -2008,7 +2011,6 @@ MOBILE
 .testimonial-grid{grid-template-columns:1fr;}
 .faq-container{grid-template-columns:1fr;}
 .masonry-gallery{display:none;}
-.gallery-filter{display:none;}
 .gallery-carousel{display:block;}
 .dining-image{height:300px;}
 .banquet-grid{display:none;}
@@ -2040,7 +2042,7 @@ section{padding:50px 0;}
 .hero-strip-inline{flex-wrap:wrap;justify-content:center;gap:28px;}
 .logo-main{font-size:1.3rem;}
 .logo-sub{font-size:0.5rem;letter-spacing:4px;}
-.features-grid{grid-template-columns:1fr;}
+.features-grid{grid-template-columns:repeat(2,1fr);}
 .stats-bar{grid-template-columns:repeat(2,1fr);}
 .room-features{grid-template-columns:1fr;}
 .dining-image{height:220px;}

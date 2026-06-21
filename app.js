@@ -201,6 +201,7 @@ item.style.display = "block";
 item.style.display = item.dataset.category === category ? "block" : "none";
 }
 });
+if (window._galleryCarouselFilter) window._galleryCarouselFilter(category);
 });
 });
 }
@@ -986,21 +987,43 @@ function initGalleryCarousel() {
 const track = document.querySelector(".gallery-carousel-track");
 if (!track) return;
 
-const slides = track.querySelectorAll(".gallery-carousel-slide");
-if (slides.length === 0) return;
+const allSlides = Array.from(track.querySelectorAll(".gallery-carousel-slide"));
+if (allSlides.length === 0) return;
 
 const counter = document.getElementById("galleryCurrentSlide");
+const totalEl = document.getElementById("galleryTotalSlides");
+let visibleSlides = allSlides;
 let current = 0;
 
+function filterSlides(category) {
+allSlides.forEach(s => {
+var show = category === "all" || s.dataset.category === category;
+s.style.display = show ? "" : "none";
+s.style.minWidth = show ? "100%" : "0";
+s.style.width = show ? "100%" : "0";
+});
+visibleSlides = allSlides.filter(s => s.style.display !== "none");
+if (totalEl) totalEl.textContent = visibleSlides.length;
+current = 0;
+track.style.transition = "none";
+goToSlide(0);
+requestAnimationFrame(() => { track.style.transition = "transform 0.5s cubic-bezier(.4,0,.2,1)"; });
+resetTimer();
+}
+
 function goToSlide(n) {
-current = ((n % slides.length) + slides.length) % slides.length;
-track.style.transform = "translateX(-" + (current * 100) + "%)";
+if (visibleSlides.length === 0) return;
+current = ((n % visibleSlides.length) + visibleSlides.length) % visibleSlides.length;
+var idx = allSlides.indexOf(visibleSlides[current]);
+var offset = 0;
+for (var i = 0; i < idx; i++) {
+if (allSlides[i].style.display !== "none") offset++;
+}
+track.style.transform = "translateX(-" + (offset * 100) + "%)";
 if (counter) counter.textContent = current + 1;
 }
 
-function advance() {
-goToSlide(current + 1);
-}
+function advance() { goToSlide(current + 1); }
 
 let timer = setInterval(advance, 5000);
 function resetTimer() { clearInterval(timer); timer = setInterval(advance, 5000); }
@@ -1020,6 +1043,8 @@ resetTimer();
 }
 });
 }
+
+window._galleryCarouselFilter = filterSlides;
 }
 
 /* ==========================================
