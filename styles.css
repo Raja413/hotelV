@@ -1923,7 +1923,7 @@ MOBILE
 .whatsapp-float{width:60px;height:60px;font-size:1.5rem;}
 .gallery-item.large,.gallery-item.tall{height:280px;}
 .gallery-item{height:250px;}
-.room-carousel{height:auto;aspect-ratio:16/10;}
+.room-carousel{height:auto;aspect-ratio:4/3;}
 .form-row{flex-direction:column;gap:0;}
 
 }
