@@ -1023,7 +1023,10 @@ track.style.transform = "translateX(-" + (offset * 100) + "%)";
 if (counter) counter.textContent = current + 1;
 }
 
-function resetTimer() {}
+function advance() { goToSlide(current + 1); }
+
+let timer = setInterval(advance, 5000);
+function resetTimer() { clearInterval(timer); timer = setInterval(advance, 5000); }
 
 const wrapper = track.closest(".gallery-carousel");
 if (wrapper) {
