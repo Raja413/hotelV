@@ -1165,16 +1165,7 @@ object-fit:cover;
 }
 
 .gallery-carousel-counter{
-position:absolute;
-bottom:12px;
-left:50%;
-transform:translateX(-50%);
-background:rgba(0,0,0,.6);
-color:#fff;
-padding:4px 14px;
-border-radius:20px;
-font-size:0.85rem;
-z-index:2;
+display:none;
 }
 
 .banquet-features{

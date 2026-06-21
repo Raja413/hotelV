@@ -1023,15 +1023,10 @@ track.style.transform = "translateX(-" + (offset * 100) + "%)";
 if (counter) counter.textContent = current + 1;
 }
 
-function advance() { goToSlide(current + 1); }
-
-let timer = setInterval(advance, 5000);
-function resetTimer() { clearInterval(timer); timer = setInterval(advance, 5000); }
+function resetTimer() {}
 
 const wrapper = track.closest(".gallery-carousel");
 if (wrapper) {
-wrapper.addEventListener("mouseenter", () => clearInterval(timer));
-wrapper.addEventListener("mouseleave", () => { timer = setInterval(advance, 5000); });
 let sx = 0, sy = 0, sd = false;
 wrapper.addEventListener("touchstart", e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; sd = true; }, {passive: true});
 wrapper.addEventListener("touchend", e => {
