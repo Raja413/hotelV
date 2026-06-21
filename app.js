@@ -586,6 +586,24 @@ slides.forEach(s => track.appendChild(s.cloneNode(true)));
 if (prevBtn) prevBtn.addEventListener("click", prev);
 if (nextBtn) nextBtn.addEventListener("click", next);
 
+let startX = 0;
+let startY = 0;
+let dragging = false;
+carousel.addEventListener("touchstart", e => {
+startX = e.touches[0].clientX;
+startY = e.touches[0].clientY;
+dragging = true;
+}, {passive: true});
+carousel.addEventListener("touchend", e => {
+if (!dragging) return;
+dragging = false;
+const dx = e.changedTouches[0].clientX - startX;
+const dy = e.changedTouches[0].clientY - startY;
+if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+if (dx < 0) next(); else prev();
+}
+});
+
 let autoLoop = setInterval(next, 8000);
 carousel.addEventListener("mouseenter", () => clearInterval(autoLoop));
 carousel.addEventListener("mouseleave", () => {
@@ -829,6 +847,16 @@ const wrapper = track.closest(".reviews-slider");
 if (wrapper) {
 wrapper.addEventListener("mouseenter", () => clearInterval(timer));
 wrapper.addEventListener("mouseleave", () => { if (!paused) { timer = setInterval(advance, 10000); } });
+let sx = 0, sy = 0, sd = false;
+wrapper.addEventListener("touchstart", e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; sd = true; }, {passive: true});
+wrapper.addEventListener("touchend", e => {
+if (!sd) return; sd = false;
+const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+goToSlide(dx < 0 ? (current + 1) % slides.length : (current - 1 + slides.length) % slides.length);
+clearInterval(timer); timer = setInterval(advance, 10000);
+}
+});
 }
 }
 
@@ -877,6 +905,16 @@ if (wrapper) {
 wrapper.addEventListener("mouseenter", () => clearInterval(timer));
 wrapper.addEventListener("mouseleave", () => {
 timer = setInterval(advance, 8000);
+});
+let sx = 0, sy = 0, sd = false;
+wrapper.addEventListener("touchstart", e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; sd = true; }, {passive: true});
+wrapper.addEventListener("touchend", e => {
+if (!sd) return; sd = false;
+const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+goToSlide(dx < 0 ? (current + 1) % slides.length : (current - 1 + slides.length) % slides.length);
+resetTimer();
+}
 });
 }
 }
