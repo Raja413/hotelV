@@ -20,6 +20,7 @@ initCustomSelects();
 initReviewsSlider();
 initDiningCarousel();
 initBanquetCarousel();
+initGalleryCarousel();
 initRoomBookButtons();
 
 });
@@ -971,6 +972,50 @@ if (!sd) return; sd = false;
 const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
 if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
 goToSlide(dx < 0 ? (current + 1) % slides.length : (current - 1 + slides.length) % slides.length);
+resetTimer();
+}
+});
+}
+}
+
+/* ==========================================
+GALLERY CAROUSEL
+========================================== */
+
+function initGalleryCarousel() {
+const track = document.querySelector(".gallery-carousel-track");
+if (!track) return;
+
+const slides = track.querySelectorAll(".gallery-carousel-slide");
+if (slides.length === 0) return;
+
+const counter = document.getElementById("galleryCurrentSlide");
+let current = 0;
+
+function goToSlide(n) {
+current = ((n % slides.length) + slides.length) % slides.length;
+track.style.transform = "translateX(-" + (current * 100) + "%)";
+if (counter) counter.textContent = current + 1;
+}
+
+function advance() {
+goToSlide(current + 1);
+}
+
+let timer = setInterval(advance, 5000);
+function resetTimer() { clearInterval(timer); timer = setInterval(advance, 5000); }
+
+const wrapper = track.closest(".gallery-carousel");
+if (wrapper) {
+wrapper.addEventListener("mouseenter", () => clearInterval(timer));
+wrapper.addEventListener("mouseleave", () => { timer = setInterval(advance, 5000); });
+let sx = 0, sy = 0, sd = false;
+wrapper.addEventListener("touchstart", e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; sd = true; }, {passive: true});
+wrapper.addEventListener("touchend", e => {
+if (!sd) return; sd = false;
+const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+goToSlide(dx < 0 ? current + 1 : current - 1);
 resetTimer();
 }
 });
